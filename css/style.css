@@ -1,0 +1,3488 @@
+/* ===================================================================
+   H.AGUSHEFF — concert & event photography portfolio
+   =================================================================== */
+
+/* Fonts are now loaded via <link rel="stylesheet"> in <head> (see all .html files)
+   instead of @import here — @import inside CSS is render-blocking because the
+   browser must fetch and start parsing this whole stylesheet before it even
+   discovers the font request. A <link> in <head> lets the browser's preloader
+   find and fetch it in parallel with everything else, right away. */
+
+
+
+*, *::before, *::after{
+ box-sizing: border-box; 
+}
+
+@media (prefers-reduced-motion: reduce){
+  html{
+ scroll-behavior: auto; 
+  
+  }
+  *, *::before, *::after{
+ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; 
+  
+  }
+}
+
+body{
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img{
+ max-width: 100%; display: block; 
+}
+
+a{
+ color: inherit; text-decoration: none; 
+}
+
+::selection{
+ background: var(--glow-color); color: #0a0a0b; 
+}
+
+:focus-visible{
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.wrap{
+  max-width: var(--container);
+  margin: 0 auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+/* ---------- ambient color-bleed glow layer ---------- */
+.glow-field{
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.glow-field::before,
+.glow-field::after{
+  content: "";
+  position: absolute;
+  width: min(75vw, 980px);
+  height: min(75vw, 980px);
+  border-radius: 50%;
+  background: var(--glow-color);
+  filter: blur(160px);
+  opacity: 0.36;
+  transition: background-color 1100ms var(--ease);
+  will-change: background-color;
+  animation: drift 50s ease-in-out infinite;
+}
+
+.glow-field::before{
+ top: -14%; left: -14%; 
+}
+
+.glow-field::after{
+ bottom: -18%; right: -12%; opacity: 0.24; animation-duration: 64s; animation-direction: reverse; 
+}
+
+@keyframes drift{
+  0%, 100%{ transform: translate(0,0) scale(1); }
+  50%{ transform: translate(4%, 5%) scale(1.08); }
+}
+
+@media (max-width: 700px){
+  :root{
+ --gutter: clamp(24px, 6vw, 34px); 
+  
+  }
+  .glow-field::before, .glow-field::after{
+ filter: blur(100px); 
+  
+  }
+}
+
+/* ---------- nav ---------- */
+.site-nav{
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px var(--gutter);
+  background: linear-gradient(to bottom, rgba(10,10,11,0.85), rgba(10,10,11,0));
+  backdrop-filter: blur(6px);
+  transition: padding 300ms var(--ease), background-color 300ms var(--ease);
+}
+
+.site-nav.is-scrolled{
+  padding-top: 14px;
+  padding-bottom: 14px;
+  background: rgba(10,10,11,0.72);
+  border-bottom: 1px solid var(--line);
+}
+
+.nav-mark{
+  font-family: var(--display);
+  font-size: 22px;
+  letter-spacing: 0.06em;
+}
+
+/* Project pages: move All Work from the desktop header into the cover image. */
+.cover-back{
+  position: absolute;
+  top: 108px;
+  left: var(--gutter);
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid rgba(242,239,233,.28);
+  border-radius: 50%;
+  background: rgba(8,8,9,.24);
+  backdrop-filter: blur(8px);
+  font-family: var(--mono);
+  font-size: 18px;
+  line-height: 1;
+  color: rgba(242,239,233,.82);
+  transition: background-color 220ms var(--ease), border-color 220ms var(--ease), color 220ms var(--ease), transform 220ms var(--ease);
+}
+
+.cover-back:hover{
+  color: var(--ink);
+  border-color: rgba(242,239,233,.52);
+  background: rgba(8,8,9,.42);
+  transform: translateY(-1px);
+}
+
+.nav-link{
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  transition: color 200ms var(--ease);
+}
+
+.nav-link:hover{
+ color: var(--ink); 
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+#work, #about, #contact{
+ scroll-margin-top: 88px; 
+}
+
+@media (max-width: 640px){
+  .nav-link{
+ display:none; 
+  
+  }
+}
+
+.ig-btn:hover{
+  border-color: var(--glow-color);
+  background: color-mix(in srgb, var(--glow-color) 16%, transparent);
+  transform: translateY(-1px);
+}
+
+/* ---------- hero ---------- */
+
+
+@keyframes heroOrbDrift{
+  from{ transform: translate3d(-2%, -1%, 0) scale(.96); }
+  to{ transform: translate3d(5%, 4%, 0) scale(1.08); }
+}
+
+.accent-word{
+  color: var(--glow-color);
+  transition: color 1100ms var(--ease);
+}
+
+.hero-eyebrow{
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin: 0 0 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero-eyebrow::before{
+  content:"";
+  width: 26px; height: 1px;
+  background: var(--ink-faint);
+  display: inline-block;
+}
+
+
+
+.hero-scroll .line{
+  width: 1px; height: 34px;
+  background: linear-gradient(to bottom, var(--ink-faint), transparent);
+  animation: scrollpulse 2.2s var(--ease) infinite;
+}
+
+@keyframes scrollpulse{
+  0%,100%{ opacity: .3; }
+  50%{ opacity: 1; }
+}
+
+/* ---------- section heads ---------- */
+
+
+.section-head h2{
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(36px, 6vw, 56px);
+  text-transform: uppercase;
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+
+.all-projects-btn{
+  appearance: none;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--ink-dim);
+  border-radius: 999px;
+  padding: 10px 17px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 250ms var(--ease), border-color 250ms var(--ease), background-color 250ms var(--ease), transform 200ms var(--ease);
+}
+
+.all-projects-btn:hover,
+.all-projects-btn[aria-expanded="true"]{
+  color: var(--ink);
+  border-color: var(--glow-color);
+  background: color-mix(in srgb, var(--glow-color) 14%, transparent);
+  transform: translateY(-1px);
+}
+
+.all-projects-gallery{
+  padding-bottom: 90px;
+}
+
+
+
+
+
+.all-projects-item img{
+  width: 100%;
+  height: auto;
+  cursor: zoom-in;
+  transition: transform 700ms var(--ease), filter 500ms var(--ease);
+}
+
+.all-projects-item figcaption{
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 18px 16px 14px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: linear-gradient(to top, rgba(0,0,0,.72), transparent);
+  opacity: 0;
+  transition: opacity 250ms var(--ease);
+}
+
+.all-projects-item:hover figcaption{
+ opacity: 1; 
+}
+
+@media (max-width: 900px){
+  
+}
+
+@media (max-width: 600px){
+  
+  
+}
+
+/* ---------- about / intro strip ---------- */
+
+
+.intro-strip p{
+  font-size: clamp(20px, 2.6vw, 30px);
+  line-height: 1.5;
+  max-width: 34ch;
+  color: var(--ink);
+  font-weight: 400;
+  margin: 0;
+}
+
+.intro-strip p em{
+  font-style: normal;
+  color: var(--ink-dim);
+}
+
+/* ---------- footer / contact ---------- */
+
+
+.footer-top{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 40px;
+  padding-bottom: 60px;
+}
+
+
+
+.footer-bottom a:hover{
+ color: var(--ink); 
+}
+
+.footer-socials{
+ display: flex; gap: 22px; 
+}
+
+/* ===================================================================
+   PROJECT PAGE
+   =================================================================== */
+.proj-cover{
+  position: relative;
+  min-height:100vh;
+  min-height:100svh;
+  width: 100%;
+  overflow: hidden;
+  background: #080809;
+}
+
+.proj-cover::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,.46) 0%, rgba(0,0,0,.06) 42%, rgba(0,0,0,.24) 100%);
+  pointer-events: none;
+}
+
+.proj-cover img{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.proj-cover-title{
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  opacity: .8;
+  margin: 0;
+  padding: 0 var(--gutter);
+  text-align: center;
+  font-family: var(--display);
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: clamp(54px, 10vw, 138px);
+  line-height: .9;
+  letter-spacing: .01em;
+  color: rgba(242,239,233,1);
+  text-shadow: 0 10px 45px rgba(0,0,0,.28);
+}
+
+
+
+.proj-header-row{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.proj-meta-block{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 28px 44px;
+  padding-top: 0;
+  width: 100%;
+}
+
+.proj-meta-item{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  text-align: center;
+}
+
+.proj-meta-item .label{
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.proj-meta-item .value{
+  font-family: var(--display);
+  font-size: clamp(22px, 2.4vw, 30px);
+  text-transform: uppercase;
+  color: var(--ink);
+  transition: color 1100ms var(--ease);
+}
+
+.proj-gallery{
+  position: relative;
+  z-index: 2;
+  padding-bottom: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(18px, 2.2vw, 30px);
+}
+
+/* Justified rows keep portrait and landscape photographs together in a balanced rhythm. */
+.proj-gallery .gallery-row{
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  gap: clamp(12px, 1.8vw, 24px);
+}
+
+.proj-gallery .gallery-row figure{
+  margin: 0;
+  min-width: 0;
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+}
+
+
+
+.proj-gallery .gallery-row figure:hover img{
+ transform: scale(1.008); 
+}
+
+@media (max-width: 900px){
+  .proj-gallery{
+ gap: 16px; 
+  
+  }
+  .proj-gallery .gallery-row{
+ gap: 12px; 
+  
+  }
+}
+
+@media (max-width: 700px){
+  .proj-cover-title{
+ top: 96px; width: 100%; 
+  
+  }
+  .proj-header{
+ padding-top: 28px; padding-bottom: 58px; 
+  
+  }
+  .proj-meta-block{
+  flex-direction:column;
+  gap:16px 24px;
+  
+  }
+  .proj-meta-item{
+ text-align: center; align-items: center; 
+  
+  }
+  .proj-gallery .gallery-row{
+ gap: 10px; 
+  
+  }
+}
+
+.proj-nav-footer a{
+ color: var(--ink-dim); transition: color 200ms var(--ease); 
+}
+
+.proj-nav-footer a:hover{
+ color: var(--ink); 
+}
+
+/* ---------- lightbox ---------- */
+.lightbox{
+  position: fixed; inset: 0;
+  z-index: 200;
+  background: rgba(6,6,7,0.96);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 260ms var(--ease);
+}
+
+.lightbox.is-open{
+ opacity: 1; pointer-events: all; 
+}
+
+.lightbox img{
+  max-width: 100%;
+  max-height: 88vh;
+  border-radius: 3px;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+}
+
+
+
+/* ---------- reveal-on-scroll ---------- */
+.reveal{
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 800ms var(--ease), transform 800ms var(--ease);
+}
+
+.reveal.is-visible{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+main{
+ position: relative; z-index: 1; 
+}
+
+/* ---------- standalone all-projects page ---------- */
+
+
+.all-projects-page .section-head h1{
+  margin: 8px 0 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(46px, 8vw, 92px);
+  line-height: .92;
+  text-transform: uppercase;
+}
+
+/* ---------- refined hero ---------- */
+
+
+.hero-accent-line{
+  display:inline-block;
+  font-family:var(--body);
+  font-size:.96em;
+  letter-spacing:.01em;
+}
+
+
+
+.hero-bottom .hero-scroll{
+ margin-top:0; 
+}
+
+/* ---------- editorial photographer intro ---------- */
+
+
+.intro-lead{
+  max-width:18ch;
+  margin:0;
+  font-family:var(--display);
+  font-size:clamp(38px,6vw,78px);
+  line-height:.98;
+  text-transform:uppercase;
+  letter-spacing:.01em;
+}
+
+.intro-lead strong{
+ font-weight:400; color:var(--ink); 
+}
+
+.intro-lead em{
+ font-style:normal; color:#e56b32; 
+}
+
+/* ---------- project navigation / mobile gutters ---------- */
+.proj-header{
+  padding: clamp(34px, 5vw, 64px) 0 clamp(52px, 7vw, 92px);
+  position: relative;
+  z-index: 2;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+.proj-nav-footer{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:60px 0;
+  border-top:1px solid var(--line);
+  font-family:var(--mono);
+  font-size:13px;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  padding-left:var(--gutter);
+  padding-right:var(--gutter);
+  gap:24px;
+}
+
+/* ---------- unmistakable lightbox close control ---------- */
+.lightbox-close{
+  position: absolute;
+  top: 26px;
+  right: var(--gutter);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  z-index: 5;
+  appearance: none;
+  background: rgba(10,10,11,.82);
+  backdrop-filter: blur(14px) saturate(1.15);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+  cursor: pointer;
+  padding: 0;
+  box-shadow: 0 8px 30px rgba(0,0,0,.35);
+  transition: transform 180ms var(--ease), background-color 180ms var(--ease), border-color 180ms var(--ease);
+}
+
+.lightbox-close:hover{
+ transform:scale(1.06); background:rgba(10,10,11,.96); border-color:rgba(242,239,233,.6); 
+}
+
+.lightbox-close svg{
+  width:20px;
+  height:20px;
+  stroke-width:2.2;
+}
+
+@media (max-width:780px){
+  
+  .intro-lead{
+ max-width:15ch; 
+  
+  }
+  .proj-nav-footer{
+ padding-top:44px; padding-bottom:44px; 
+  
+  }
+}
+
+@media (max-width:600px){
+  .lightbox-close svg{
+ width:21px; height:21px; 
+  
+  }
+  .proj-nav-footer a:nth-child(2){
+ order:3; width:100%; text-align:center; 
+  
+  }
+  
+}
+
+
+
+
+
+/* The opening hero copy lifts away as the visitor starts exploring. */
+
+
+/* Make the hero departure feel intentional rather than abrupt. */
+
+
+@media (prefers-reduced-motion: reduce){
+  .hero-copy-motion{
+  transform:none;
+  opacity:1;
+  filter:none;
+  
+  }
+}
+
+/* ---------- final hero / contact refinement ---------- */
+.hero-copy-motion{
+  transition: none;
+  transform: translate3d(0, var(--hero-scroll-y, 0px), 0);
+  opacity: 1;
+  filter: none;
+  will-change: transform;
+}
+
+.hero-kicker,
+.hero-scroll{
+  color:rgba(255,255,255,.64);
+}
+
+.footer-cta-label{
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.64);
+  margin:0 0 18px;
+}
+
+.footer-bottom a{
+  color:rgba(255,255,255,.66);
+  transition:color 200ms var(--ease);
+}
+
+
+
+.contact-panel-top{
+  position:relative;
+  z-index:1;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:24px;
+  margin-bottom:clamp(42px,7vw,92px);
+}
+
+.contact-panel-main{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:minmax(0,1.35fr) minmax(220px,.65fr);
+  gap:clamp(40px,9vw,150px);
+  align-items:end;
+}
+
+.footer-cta h2{
+  font-family:var(--display);
+  font-weight:400;
+  text-transform:uppercase;
+  font-size:clamp(52px,8.6vw,118px);
+  line-height:.88;
+  margin:0;
+  max-width:10ch;
+}
+
+.footer-cta h2 span{
+  color:rgba(255,255,255,.42);
+}
+
+.contact-note{
+  max-width:43ch;
+  margin:30px 0 0;
+  color:rgba(255,255,255,.58);
+  font-size:clamp(14px,1.3vw,17px);
+  line-height:1.7;
+}
+
+.footer-contact-link{
+  font-family:var(--body);
+  font-size:inherit;
+  text-transform:none;
+  border-bottom:1px solid rgba(255,255,255,.24);
+  padding-bottom:4px;
+  transition:border-color 250ms var(--ease), color 250ms var(--ease);
+  white-space:nowrap;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:13px;
+  width:max-content;
+  max-width:100%;
+  padding:0 0 12px;
+  color:rgba(255,255,255,.78);
+}
+
+.footer-contact-link span{
+  font-family:var(--display);
+  font-size:clamp(30px,4vw,52px);
+  line-height:1;
+  letter-spacing:.01em;
+}
+
+.footer-contact-link b{
+  font-family:var(--mono);
+  font-size:11px;
+  font-weight:400;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.58);
+  transition:color 250ms var(--ease), transform 250ms var(--ease);
+}
+
+.footer-contact-link:hover{
+  border-color:var(--glow-color);
+  color:var(--ink);
+}
+
+.footer-contact-link:hover b{
+  color:var(--glow-color);
+  transform:translateX(4px);
+}
+
+/* ---------- final responsive gallery + clean background polish ---------- */
+/* The contact glow is allowed to breathe beyond the content container so the
+   page does not end in a hard-edged rectangle. */
+.contact-panel{
+  position: relative;
+  padding-top: clamp(28px,4vw,54px);
+  padding-right: 0;
+  padding-bottom: clamp(42px,6vw,76px);
+  padding-left: 0;
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line);
+  overflow: visible;
+}
+
+.contact-panel::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(42% 50% at 90% 88%, var(--glow-color) 0%, transparent 70%);
+  opacity:.16;
+  pointer-events:none;
+  transition:background-color 1100ms var(--ease);
+  width:auto;
+  height:auto;
+  right:auto;
+  bottom:auto;
+  filter:none;
+}
+
+/* Keep the photograph glow soft, without the dark horizontal 'line' under images. */
+.proj-gallery .gallery-row figure::before{
+  content: "";
+  position: absolute;
+  z-index: -1;
+  border-radius: 18px;
+  background-image: var(--photo-bg);
+  background-size: cover;
+  background-position: center;
+  transform: scale(.98);
+  pointer-events: none;
+  inset: -34px;
+  filter: blur(42px) saturate(1.3);
+  opacity: .44;
+}
+
+.proj-gallery .gallery-row img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  border-radius:4px;
+  cursor:zoom-in;
+  box-shadow:none;
+  transition:box-shadow 600ms var(--ease), transform 500ms var(--ease);
+}
+
+@media (max-width: 900px){
+  :root{
+ --gutter: clamp(20px, 5vw, 34px); 
+  
+  }
+  .wrap{
+ width: 100%; 
+  
+  }
+  .site-nav{
+ padding-top: 16px; padding-bottom: 16px; 
+  
+  }
+  .hero{
+ padding-top: 100px; padding-bottom: 64px; 
+  
+  }
+  .hero h1{
+ font-size: clamp(54px, 15vw, 110px); 
+  
+  }
+  .all-projects-grid{
+  columns: 2 220px;
+}
+  .contact-panel-main{
+ gap: 44px; 
+  
+  }
+}
+
+@media (max-width: 600px){
+  :root{
+ --gutter: 18px; 
+  
+  }
+  body{
+ font-size: 15px; 
+  
+  }
+  
+  
+  
+  .hero-scroll{
+ margin-top: 0; font-size: 10px; 
+  
+  }
+  
+  .section-head h2{
+ font-size: 42px; 
+  
+  }
+  .all-projects-btn{
+ padding: 9px 13px; font-size: 10px; 
+  
+  }
+  /* One clear column on phones: no tiny side-by-side photographs. */
+  
+  
+  .proj-cover-title{
+ padding: 0 18px; font-size: clamp(48px, 16vw, 82px); 
+  
+  }
+  
+  .proj-meta-block{
+ gap: 18px 22px; 
+  
+  }
+  .proj-meta-item .label{
+ font-size: 9px; 
+  
+  }
+  .proj-meta-item .value{
+ font-size: 22px; 
+  
+  }
+  /* Project gallery: one photograph per row, with a viewport-aware height.
+     This makes portraits easy to see without repeated swipes. */
+  .proj-gallery{
+    width: 100%;
+    gap: 24px;
+    padding-bottom: 54px;
+  
+  
+  }
+  .proj-gallery .gallery-row{
+    width: 100%;
+    gap: 0;
+    justify-content: center;
+  
+  
+  }
+  .proj-gallery .gallery-row figure{
+    width: 100% !important;
+    flex: 0 0 100% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+  
+  }
+  .proj-gallery .gallery-row img{
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 3px;
+  
+  
+  }
+  .proj-gallery .gallery-row figure::before{
+    inset: -20px;
+    filter: blur(34px) saturate(1.25);
+    opacity: .40;
+  
+  
+  }
+  
+  .lightbox{
+  padding:16px;
+  
+  }
+  .lightbox img{
+ max-width: 96vw; max-height: 82svh; 
+  
+  }
+  .lightbox-close{
+  top:12px;
+  right:12px;
+  width:44px;
+  height:44px;
+  
+  }
+  /* Contact becomes a full-bleed, softly fading field on phones. */
+  
+  .contact-panel::before{
+    inset: 0;
+    width: auto;
+    height: auto;
+    right: auto;
+    bottom: auto;
+    background: radial-gradient(48% 42% at 90% 90%, var(--glow-color) 0%, transparent 70%);
+    filter: none;
+    opacity: .14;
+  
+  
+  }
+  .footer-contact-side{
+ max-width:34ch; justify-self:start; gap:22px; 
+  
+  }
+  .footer-contact-link span{
+  font-size:36px;
+  
+  }
+  .footer-socials{
+ width: 100%; justify-content: flex-start; 
+  
+  }
+}
+
+/* ---------- polished mobile finishing pass ---------- */
+
+
+.site-nav, .site-nav *{
+ min-width: 0; 
+}
+
+.nav-right{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  min-width:0;
+  max-width:50%;
+}
+
+/* The footer should finish tightly after the final content, without an extra viewport of dead space. */
+
+
+@media (max-width: 600px){
+  .site-nav{
+  padding-left:var(--gutter);
+  padding-right:var(--gutter);
+  width:100%;
+  max-width:100vw;
+  overflow:hidden;
+  
+  }
+  .nav-mark{
+  font-size:20px;
+  flex:0 1 auto;
+  min-width:0;
+  white-space:nowrap;
+  
+  }
+  .nav-right{
+ flex: 0 0 auto; max-width: 48%; 
+  
+  }
+  .ig-btn{
+  padding:8px 11px;
+  font-size:10px;
+  gap:6px;
+  max-width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  }
+  .ig-btn svg{
+ flex: 0 0 15px; 
+  
+  }
+  /* All Projects: two compact masonry columns on phones — denser and much easier to scan. */
+  
+  .all-projects-gallery{
+ padding-bottom: 24px; 
+  
+  }
+  
+  .all-projects-item{
+  margin-bottom:10px;
+  border-radius:3px;
+  
+  }
+  .all-projects-item img{
+  width:100%;
+  height:auto;
+  
+  }
+  .all-projects-item figcaption{
+  display:none;
+  
+  }
+  /* Tighten the end of the home page so there is no oversized empty tail. */
+  
+  .footer-bottom{
+  align-items:flex-start;
+  padding:26px 0 8px;
+  font-size:9px;
+  gap:14px;
+  padding-top:16px;
+  padding-bottom:0;
+  }
+}
+
+@media (max-width: 360px){
+  .nav-mark{
+ font-size: 18px; letter-spacing: .04em; 
+  
+  }
+  .ig-btn{
+ padding: 7px 9px; font-size: 9px; gap: 5px; 
+  
+  }
+}
+
+/* ---------- final mobile spacing + page-end cleanup ---------- */
+html, body{
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  min-height: 0;
+}
+
+
+
+.site-footer > .wrap,
+.contact-panel,
+.footer-bottom{
+ min-height: 0; height: auto; 
+}
+
+.footer-bottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:16px;
+  padding-top:24px;
+  border-top:0;
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:0.05em;
+  color:rgba(255,255,255,.57);
+  text-transform:uppercase;
+  margin-top:0;
+  padding-bottom:0;
+  margin-bottom:0;
+}
+
+@media (max-width: 780px){
+  .hero{
+    min-height: 92svh;
+    justify-content: flex-start;
+    padding-top: 112px;
+    padding-bottom: 82px;
+  
+  
+  }
+  
+  
+  
+  .hero-bottom .hero-scroll{
+  margin-top:0;
+  
+  }
+  .site-footer{
+    margin-top: 84px !important;
+  
+  
+  }
+  .contact-panel{
+    padding-top: 38px;
+    padding-bottom: 52px;
+  
+  
+  }
+  .contact-panel-top{
+    margin-bottom: 66px;
+  
+  
+  }
+  .contact-panel-main{
+  grid-template-columns:1fr;
+  gap:64px;
+  }
+  .footer-cta h2{
+  max-width:12ch;
+  line-height:.9;
+  }
+  .contact-note{
+    margin-top: 30px;
+    line-height: 1.7;
+  
+  
+  }
+  
+  .footer-bottom{
+    padding-top: 22px;
+    padding-bottom: 0 !important;
+    gap: 16px;
+  
+  
+  }
+}
+
+@media (max-width: 600px){
+  
+  
+  .hero-sub{
+  font-size: 14px;
+  line-height: 1.65;
+  max-width: 31ch;
+}
+  .contact-panel{
+  margin-left:calc(var(--gutter) * -1);
+  margin-right:calc(var(--gutter) * -1);
+  padding-left:var(--gutter);
+  padding-right:var(--gutter);
+  border-top-color:rgba(242,239,233,.13);
+  border-bottom-color:rgba(242,239,233,.08);
+  padding-bottom:48px;
+  padding-top:34px;
+  }
+  .contact-panel-top{
+  align-items:flex-start;
+  margin-bottom:58px;
+  }
+  .contact-panel-main{
+  gap:58px;
+  }
+  .footer-cta h2{
+  font-size:clamp(50px, 15vw, 76px);
+  }
+  .contact-note{
+  max-width:34ch;
+  font-size:14px;
+  line-height:1.65;
+  margin-top:26px;
+  }
+  .footer-contact-link{
+  gap:16px;
+  margin-top:4px;
+  }
+}
+
+/* ---------- final editorial polish ---------- */
+.accent-inline{
+  color: var(--glow-color);
+  transition: color 700ms var(--ease);
+}
+
+/* Keep a small, intentional breathing space after the footer — not a second screen. */
+.site-footer{
+  position: relative;
+  z-index: 2;
+  padding-right: 0;
+  padding-left: 0;
+  margin-top: clamp(120px,16vw,220px);
+  padding-top: 0;
+  border-top: 0;
+  overflow: hidden;
+  min-height: 0;
+  height: auto;
+  margin-bottom: 0 !important;
+  padding-bottom: 26px !important;
+}
+
+.site-footer > .wrap{
+ margin-bottom: 0; 
+}
+
+/* All Projects: compact back-to-top control */
+.back-to-top{
+  position: fixed;
+  right: clamp(16px, 3vw, 36px);
+  bottom: clamp(16px, 3vw, 30px);
+  z-index: 80;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 50%;
+  background: rgba(8,8,9,.76);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: rgba(255,255,255,.78);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 220ms var(--ease), transform 220ms var(--ease), border-color 220ms var(--ease), color 220ms var(--ease);
+}
+
+.back-to-top.is-visible{
+ opacity:1; transform:translateY(0); pointer-events:auto; 
+}
+
+.back-to-top:hover{
+ border-color: var(--glow-color); color: var(--glow-color); 
+}
+
+.back-to-top svg{
+ width:16px; height:16px; 
+}
+
+@media (max-width:600px){
+  .site-footer{
+  margin-top: 76px !important;
+  padding-bottom: 24px !important;
+}
+  .back-to-top{
+ width:40px; height:40px; right:14px; bottom:14px; 
+  
+  }
+  .intro-lead{
+  font-size:48px;
+  max-width:20ch;
+  
+  }
+}
+
+/* ---------- v5 selected-work composition ---------- */
+.section-head{
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 44px;
+  margin-left: 0;
+  padding-top: 74px;
+  border-top: 1px solid var(--line);
+  scroll-margin-top: 82px;
+}
+
+@media (max-width: 600px){
+  .section-head{
+  align-items: center;
+  gap: 14px;
+  padding-top: 46px;
+  margin-bottom: 24px;
+  scroll-margin-top: 74px;
+}
+}
+
+/* ---------- v6 final editorial selected-work + hero cleanup ---------- */
+:root{
+  --bg: #0a0a0b;
+  --bg-elevated: #121214;
+  --ink: #f2efe9;
+  --ink-dim: #a7a39c;
+  --ink-faint: #6e6b66;
+  --line: rgba(242,239,233,0.09);
+  --line-strong: rgba(242,239,233,0.16);
+  --glow-color: #6e6b66;
+  --display: 'Bebas Neue', 'Arial Narrow', sans-serif;
+  --body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+  --serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  --container: 1400px;
+  --gutter: clamp(20px, 5vw, 64px);
+  --ease: cubic-bezier(.16,.84,.44,1);
+  --hero-orange: #e66a3d;
+}
+
+
+
+
+
+/* No scroll cue in the final hero. */
+.hero-scroll{
+  margin-top: 64px;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  display: none !important;
+}
+
+/* About: restrained accents — orange is used sparingly, supporting words stay soft. */
+.intro-lead .accent-inline{
+ color:var(--hero-orange); 
+}
+
+.intro-lead .soft-inline{
+  color:rgba(255,255,255,.52);
+}
+
+@media (max-width:600px){
+  
+  
+}
+
+/* ---------- v8 editorial / Framer-inspired polish ---------- */
+/* Subtle full-page transition: inspired by the calm, intentional transitions
+   common in modern Framer photography portfolios. */
+.page-transition{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  pointer-events:none;
+  background:transparent;
+  opacity:0;
+  transform:translateX(100%);
+}
+
+/* Selected Work / All Projects: tighter editorial entry. */
+
+
+/* A looser masonry field rather than a rigid card grid. */
+
+
+.all-projects-item{
+  position: relative;
+  break-inside: avoid;
+  margin: 0 0 clamp(14px, 2vw, 26px);
+  overflow: hidden;
+  background: var(--bg-elevated);
+  width: 94%;
+  margin-bottom: clamp(14px, 2vw, 28px);
+  border-radius: 2px;
+  transition: transform 500ms var(--ease);
+}
+
+.all-projects-item:nth-child(3n+2){
+ width:100%; margin-left:auto; 
+}
+
+.all-projects-item:nth-child(4n+3){
+ width:88%; 
+}
+
+.all-projects-item:nth-child(5n+4){
+ width:97%; margin-left:3%; 
+}
+
+.all-projects-item:nth-child(7n+1){
+ transform:translateY(10px); 
+}
+
+.all-projects-item:nth-child(7n+4){
+ transform:translateY(-8px); 
+}
+
+.all-projects-item:nth-child(9n+6){
+ transform:translateY(16px); 
+}
+
+.all-projects-item:hover img{
+  transform:scale(1.035);
+  filter:brightness(.84);
+}
+
+/* The photographer: two-column editorial statement. */
+
+
+/* Footer: keep the CTA link visually clean; no explanatory paragraph above it. */
+.footer-contact-side{
+  align-items: flex-start;
+  gap: 24px;
+  max-width: 34ch;
+  justify-self: end;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-self: end;
+}
+
+.footer-contact-side .footer-contact-link{
+ margin-top:0; 
+}
+
+
+
+@media (max-width:1100px){
+  
+}
+
+@media (max-width:780px){
+  
+  
+}
+
+@media (max-width:600px){
+  
+  .all-projects-item:nth-child(7n+1){
+ transform:translateY(4px); 
+  
+  }
+  .all-projects-item:nth-child(7n+4){
+ transform:translateY(-3px); 
+  
+  }
+  .all-projects-item:nth-child(9n+6){
+ transform:translateY(6px); 
+  
+  }
+  
+  .hero-accent-muted{
+ display:inline; 
+  
+  }
+}
+
+/* ---------- v9 refinement ---------- */
+/* Keep the editorial feel, but make every masonry gutter consistent. */
+
+
+.all-projects-page .section-head{
+  margin-bottom:clamp(20px,2.2vw,30px);
+}
+
+.all-projects-grid{
+  columns: 4 230px;
+  column-gap: clamp(12px,1.35vw,20px);
+}
+
+.all-projects-item,
+.all-projects-item:nth-child(3n+2),
+.all-projects-item:nth-child(4n+3),
+.all-projects-item:nth-child(5n+4){
+  width:100%;
+  margin-left:0;
+  margin-bottom:clamp(12px,1.35vw,20px);
+  transform:none !important;
+  break-inside:avoid;
+}
+
+.all-projects-item:hover{
+  transform:translateY(-2px) !important;
+}
+
+/* The Photographer: same calm two-part editorial structure, with the heading integrated above it. */
+.intro-strip{
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+  grid-template-columns: minmax(120px,.55fr) minmax(0,2fr);
+  column-gap: clamp(32px,7vw,110px);
+  align-items: start;
+  display: block;
+  padding-top: clamp(90px,10vw,150px);
+  padding-bottom: clamp(24px,3vw,40px);
+}
+
+.intro-strip-head{
+  display:flex;
+  align-items:center;
+  gap:clamp(14px,2vw,22px);
+  margin-bottom:clamp(28px,4vw,52px);
+}
+
+.intro-heading{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--ink-dim);
+  margin:0;
+  white-space:nowrap;
+}
+
+.intro-strip-rule{
+  flex:1 1 auto;
+  height:1px;
+  background:var(--line-strong);
+}
+
+.intro-editorial-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.3fr) minmax(240px,.85fr);
+  gap:clamp(32px,7vw,100px);
+  align-items:center;
+}
+
+.intro-primary .intro-lead{
+  margin:0;
+  max-width:23ch;
+  font-size:clamp(30px,3.4vw,46px);
+  line-height:1.18;
+}
+
+.intro-primary .accent-inline{
+  color:var(--hero-orange);
+}
+
+.intro-secondary{
+  align-self:end;
+  max-width:none;
+  padding-left:clamp(24px,3vw,40px);
+  border-left:1px solid var(--line-strong);
+  padding-top:2px;
+}
+
+.intro-secondary-label{
+  display:block;
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--ink-faint);
+  margin-bottom:clamp(18px,2vw,26px);
+}
+
+.intro-secondary p{
+  margin:0;
+  color:rgba(255,255,255,.78);
+  font-size:clamp(17px,1.5vw,21px);
+  line-height:1.6;
+  font-family:var(--body);
+  text-transform:none;
+  letter-spacing:0;
+}
+
+.intro-secondary .accent-inline{
+  color:var(--hero-orange);
+}
+
+@media (max-width:1100px){
+  .all-projects-grid{
+  columns: 3 220px;
+}
+}
+
+@media (max-width:780px){
+  .intro-editorial-grid{
+  grid-template-columns:1fr;
+  gap:32px;
+  align-items:start;
+  }
+  
+  .intro-secondary{
+  max-width:none;
+  border-left:none;
+  border-top:1px solid var(--line-strong);
+  padding-left:0;
+  padding-top:20px;
+  }
+}
+
+@media (max-width:600px){
+  .all-projects-page{
+  padding-top: 30px;
+  padding-bottom: 48px;
+}
+  .all-projects-page .section-head{
+  margin-bottom:20px;
+  }
+  .all-projects-grid{
+  columns: 2 0;
+  column-gap: 10px;
+}
+  .all-projects-item,
+  .all-projects-item:nth-child(3n+2),
+  .all-projects-item:nth-child(4n+3),
+  .all-projects-item:nth-child(5n+4){
+  width:100%;
+  margin-left:0;
+  margin-bottom:10px;
+  transform:none !important;
+  
+  }
+  .intro-strip{
+  padding-top:70px;
+  }
+  .intro-strip-head{
+ margin-bottom:24px; gap:12px; 
+  
+  }
+  .intro-primary .intro-lead{
+  font-size:clamp(28px,8vw,38px);
+  line-height:1.15;
+  max-width:20ch;
+  }
+  .intro-secondary p{
+  font-size:clamp(16px,4.2vw,19px);
+  line-height:1.55;
+  }
+}
+
+/* Responsive project cover pictures: vertical source on phones, editorial crop on desktop. */
+.work-feature picture{
+ position:absolute; inset:0; display:block; 
+}
+
+.work-feature picture img{
+ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; 
+}
+
+.proj-cover picture{
+ position:absolute; inset:0; display:block; 
+}
+
+.proj-cover picture img{
+ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; 
+}
+
+/* ---------- v12: staggered editorial cover layout + hover CTA ---------- */
+.work-feature-list{
+  display:flex;
+  flex-direction:column;
+  gap:clamp(28px,4vw,56px);
+  padding-bottom:clamp(48px,6vw,80px);
+}
+
+.work-feature-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:clamp(18px,2.2vw,34px);
+}
+
+.work-feature{
+  position:relative;
+  display:block;
+  width:100%;
+  aspect-ratio:21 / 8;
+  border-radius:4px;
+  overflow:hidden;
+  background:var(--bg-elevated);
+}
+
+.work-feature--half{
+ aspect-ratio:16 / 12; 
+}
+
+.work-feature img{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+  filter:saturate(0.94) brightness(0.9);
+  transform:scale(1.01);
+  transition:transform 900ms var(--ease), filter 500ms var(--ease);
+}
+
+.work-feature:hover img{
+  transform:scale(1.045);
+  filter:saturate(1.05) brightness(0.78);
+}
+
+.work-feature::after{
+  content:"";
+  position:absolute; inset:0;
+  background:linear-gradient(to top, rgba(0,0,0,.6) 0%, rgba(0,0,0,0) 42%);
+  transition:background 400ms var(--ease);
+}
+
+.work-feature:hover::after{
+  background:linear-gradient(to top, rgba(0,0,0,.72) 0%, rgba(0,0,0,0) 58%);
+}
+
+.work-feature-title{
+  position:absolute;
+  left:clamp(20px,2.6vw,36px);
+  bottom:clamp(18px,2.4vw,32px);
+  z-index:2;
+  font-family:var(--display);
+  text-transform:uppercase;
+  font-size:clamp(26px,3.2vw,44px);
+  line-height:1;
+  color:var(--ink);
+  letter-spacing:.005em;
+  transition:transform 420ms var(--ease);
+}
+
+.work-feature--half .work-feature-title{
+ font-size:clamp(24px,2.4vw,34px); 
+}
+
+.work-feature:hover .work-feature-title{
+ transform:translateX(4px); 
+}
+
+/* Hover CTA: arrow + "View project" label, sliding in from the right. */
+.work-feature-cta{
+  position:absolute;
+  right:clamp(20px,2.6vw,36px);
+  bottom:clamp(18px,2.4vw,32px);
+  z-index:2;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  opacity:0;
+  transform:translateX(16px);
+  transition:opacity 340ms var(--ease), transform 340ms var(--ease);
+}
+
+.work-feature:hover .work-feature-cta{
+  opacity:1;
+  transform:translateX(0);
+}
+
+.work-feature-cta-label{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--ink);
+  white-space:nowrap;
+}
+
+.work-feature-cta-arrow{
+  width:42px; height:42px;
+  border-radius:50%;
+  border:1px solid rgba(242,239,233,.55);
+  background:rgba(10,10,11,.35);
+  backdrop-filter:blur(3px);
+  display:flex; align-items:center; justify-content:center;
+  flex:0 0 auto;
+  transition:background 300ms var(--ease), border-color 300ms var(--ease), transform 300ms var(--ease);
+}
+
+.work-feature:hover .work-feature-cta-arrow{
+  background:var(--hero-orange, #e66a3d);
+  border-color:var(--hero-orange, #e66a3d);
+  transform:translateX(3px);
+}
+
+.work-feature-cta-arrow svg{
+ width:17px; height:17px; color:var(--ink); 
+}
+
+@media (max-width:780px){
+  
+  
+  
+  .work-feature-title{
+ font-size:clamp(24px,7vw,32px); left:16px; bottom:16px; 
+  
+  }
+  
+  /* No hover on touch: show the CTA arrow permanently, label stays hidden to avoid clutter. */
+  .work-feature-cta{
+ opacity:1; transform:none; right:16px; bottom:16px; 
+  
+  }
+  .work-feature-cta-label{
+ display:none; 
+  
+  }
+  .work-feature-cta-arrow{
+ width:36px; height:36px; background:rgba(10,10,11,.5); 
+  
+  }
+}
+
+/* ---------- v13: mobile hero polish ---------- */
+@media (max-width:600px){
+  .hero-bg img{ object-position:center 50%; filter:saturate(.68) brightness(.72) contrast(.96); }
+  .hero{
+  min-height: 92svh;
+  justify-content: center;
+  padding-top: 104px;
+  padding-bottom: 64px;
+}
+  
+  
+  .hero h1{
+  font-size: clamp(58px,18vw,90px);
+  line-height: .9;
+  letter-spacing: -.02em;
+}
+  .hero-bottom{
+  padding-top: 28px;
+  gap: 34px;
+  margin-top: 32px;
+}
+  .hero-bottom .hero-sub{
+  display: block;
+  font-size: 15px;
+  line-height: 1.5;
+  max-width: 28ch;
+}
+}
+
+@media (max-width:380px){
+  .hero{
+ padding-top:76px; 
+  
+  }
+  .hero h1{
+ font-size:clamp(50px,17vw,70px); letter-spacing:-.02em; 
+  
+  }
+  .hero-bottom .hero-sub{
+ font-size:14px; max-width:26ch; 
+  
+  }
+}
+
+/* ---------- v14: mobile hero — kicker pinned near top, title+sub centered below ---------- */
+@media (max-width:780px){
+  
+  
+  .hero-title-wrap{
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 72px;
+}
+}
+
+@media (max-width:600px){
+  .hero-kicker{
+  font-size: 9px;
+  letter-spacing: .12em;
+  margin-bottom: 38px;
+  line-height: 1.4;
+  top: 84px;
+}
+  .hero-title-wrap{
+  gap: 22px;
+  margin-top: 64px;
+}
+}
+
+@media (max-width:380px){
+  .hero-kicker{
+  font-size:9px;
+  letter-spacing:.1em;
+  margin-bottom:20px;
+  top:74px;
+  }
+  .hero-title-wrap{
+ margin-top:56px; 
+  
+  }
+}
+
+/* ---------- v16: All Projects — tighten oversized gap before the compact footer ---------- */
+.all-projects-page{
+  padding-top: clamp(28px,3.2vw,46px);
+  padding-bottom: clamp(36px,4vw,56px);
+}
+
+.all-projects-body .site-footer{
+  margin-top:clamp(48px,6vw,80px);
+}
+
+/* ---------- mobile project metadata + navigation edge spacing ---------- */
+@media (max-width: 600px){
+  /* Keep Event / Client perfectly centered on the phone viewport. */
+  .proj-header .proj-header-row,
+  .proj-header .proj-meta-block{
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  
+
+  /* Give the next-project link a little breathing room so the arrow
+     never touches or gets clipped by the right edge. */
+  .proj-nav-footer{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  row-gap: 16px;
+  padding-top: 42px;
+  padding-bottom: 42px;
+  margin-top: 0;
+  margin-bottom: 0;
+  width: auto;
+  margin-left: var(--gutter);
+  margin-right: var(--gutter);
+  padding-left: 10px;
+  padding-right: 14px;
+}
+  .proj-nav-footer a:first-child{
+    max-width: 46%;
+    white-space: normal;
+  }
+  .proj-nav-footer a:last-child{
+  padding-right: 6px;
+  text-align: right;
+  margin-left: auto;
+  max-width: 46%;
+  white-space: normal;
+}
+}
+
+/* Mobile: keep project header clean — All Work is already available below the gallery. */
+@media (max-width: 640px){
+  .cover-back{ display:none; }
+}
+
+/* ===================================================================
+   HERO — editorial / premium crowd image treatment
+   =================================================================== */
+.hero{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0;
+  justify-content: center;
+  isolation: isolate;
+  background: #11100f;
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+.hero-bg{
+  position:absolute;
+  inset:0;
+  z-index:-2;
+  display:block;
+  overflow:hidden;
+  background:#11100f;
+}
+
+
+
+@keyframes heroImageSettle{
+  from{ transform:scale(1.075); filter:saturate(.72) contrast(.94) brightness(.70); }
+  to{ transform:scale(1.045); filter:saturate(.82) contrast(.96) brightness(.76); }
+}
+
+.hero-inner{
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: clamp(90px, 10vh, 130px);
+  padding-bottom: clamp(56px, 8vh, 100px);
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+.hero-kicker-line{
+  width:30px;
+  height:1px;
+  background:rgba(255,255,255,.78);
+  flex:0 0 auto;
+}
+
+.hero-title-wrap{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:40px;
+  width:100%;
+  text-align:center;
+}
+
+.hero-title-wrap .accent-word{
+ color:#f4f1eb; 
+}
+
+
+
+.hero-sub{
+  max-width: 34ch;
+  margin: 0;
+  color: rgba(255,255,255,.88);
+  font-family: var(--body);
+  font-size: clamp(17px, 1.55vw, 22px);
+  line-height: 1.42;
+  letter-spacing: .015em;
+  font-weight: 400;
+  text-wrap: balance;
+  text-shadow: 0 8px 30px rgba(0,0,0,.35);
+}
+
+.hero-accent-line,
+.hero-accent-line strong{
+  font-family:inherit;
+  font-size:inherit;
+  font-weight:400;
+  color:inherit;
+  letter-spacing:inherit;
+}
+
+@media (max-width:780px){
+  .hero-inner{
+  position: static;
+  padding-top: 100px;
+  padding-bottom: 54px;
+}
+  .hero-kicker{
+  position: absolute;
+  z-index: 3;
+  margin-bottom: 42px;
+  top: 96px;
+  left: var(--gutter);
+  right: var(--gutter);
+  font-size: 9px;
+  letter-spacing: .18em;
+}
+  .hero-kicker-line{
+ width:22px; 
+  
+  }
+  .hero-bottom{
+  padding-top: 30px;
+  gap: 38px;
+  align-items: flex-start;
+  flex-direction: column;
+  margin-top: 26px;
+}
+  .hero-sub{
+  max-width: 27ch;
+  font-size: clamp(18px, 5.1vw, 23px);
+  line-height: 1.22;
+}
+}
+
+@media (max-width:420px){
+  .hero-inner{
+ padding-top:92px; 
+  
+  }
+  .hero-kicker{
+ top:86px; 
+  
+  }
+  .hero-sub{
+ font-size:18px; max-width:26ch; 
+  
+  }
+}
+
+/* ---------- latest hero refinement: vivid colour + solid editorial type ---------- */
+
+
+.hero h1{
+  font-family:var(--display);
+  font-weight:400;
+  font-size:clamp(72px, 11vw, 156px);
+  line-height:.88;
+  letter-spacing:.015em;
+  margin:0;
+  text-transform:none;
+  text-shadow:0 8px 50px rgba(0,0,0,.34);
+}
+
+.hero-bottom .hero-sub{
+  margin: 0;
+  color: rgba(255,255,255,.55);
+  font-size: clamp(14px,1.4vw,17px);
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45em;
+  align-items: baseline;
+  font-family: var(--body);
+  font-weight: 500;
+  letter-spacing: .015em;
+}
+
+/* ---------- v19: hero — refined type (light, professional, not heavy serif) + richer un-desaturated photo ---------- */
+
+
+/* Richer, warmer, un-desaturated hero photo — darkened only, no gray wash. */
+
+
+/* ---------- v20: mobile — project cover photos go full-bleed, edge to edge, full viewport height ---------- */
+@media (max-width:780px){
+  .work-feature-list{
+  margin-left: calc(-1 * var(--gutter));
+  margin-right: calc(-1 * var(--gutter));
+  width: calc(100% + (2 * var(--gutter)));
+  gap: 0;
+}
+  .work-feature{
+  aspect-ratio: auto;
+  border-radius: 0;
+}
+  .work-feature--half{
+  aspect-ratio: auto;
+}
+  .work-feature-row{
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+}
+
+/* ---------- v21: hero — warmer golden photo grade + smaller, refined editorial type ---------- */
+
+
+.hero-title-wrap h1{
+  margin:0;
+  font-family:var(--serif);
+  font-size:clamp(44px, 6vw, 92px);
+  line-height:.96;
+  font-weight:400;
+  letter-spacing:-.005em;
+  text-transform:none;
+  color:#f4f1eb;
+  text-shadow:0 18px 60px rgba(0,0,0,.32);
+}
+
+.hero-kicker-divider{
+  width:36px;
+  height:1px;
+  margin:clamp(18px,2.4vw,26px) auto;
+  background:var(--hero-orange, #e66a3d);
+  opacity:.85;
+}
+
+.hero-bottom{
+  gap: 30px;
+  width: 100%;
+  padding-top: 0;
+  border-top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-top: 0;
+}
+
+@media (max-width:780px){
+  .hero-title-wrap h1{
+  font-size:clamp(40px, 11vw, 56px);
+  line-height:1.0;
+  }
+  .hero-kicker-divider{
+ margin:16px auto; width:28px; 
+  
+  }
+}
+
+@media (max-width:420px){
+  .hero-title-wrap h1{
+  font-size:clamp(36px,10vw,46px);
+  }
+}
+
+/* ---------- v22: project-page cover full viewport on mobile ---------- */
+@media (max-width:600px){
+  
+}
+
+/* ---------- v27: hero — back to v25 photo treatment, bigger text-spot, two distinct serifs ---------- */
+.hero-bg::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: none;
+}
+
+.hero-title-wrap h1,
+.hero h1{
+  text-transform: none;
+  font-family: 'Playfair Display', var(--serif);
+  font-weight: 300;
+  font-style: normal;
+  letter-spacing: 0;
+  text-shadow: 0 6px 24px rgba(0,0,0,.6), 0 2px 8px rgba(0,0,0,.55);
+}
+
+.hero-title-wrap .accent-word,
+.hero .accent-word{
+  font-weight:300;
+}
+
+.hero-kicker{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:clamp(28px,4vw,52px);
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.82);
+  position:absolute;
+  top:clamp(104px, 13vh, 150px);
+  left:var(--gutter);
+  margin:0;
+  text-shadow:0 2px 10px rgba(0,0,0,.45);
+}
+
+/* ---------- v28: hero subtitle — more letter-spacing + larger, easier to read ---------- */
+.hero-bottom .hero-sub,
+.hero-sub{
+  font-size:clamp(19px, 1.9vw, 26px);
+  letter-spacing:.045em;
+  line-height:1.5;
+}
+
+@media (max-width:780px){
+  .hero-bottom .hero-sub,
+  .hero-sub{
+    font-size:clamp(19px, 5.6vw, 25px);
+    letter-spacing:.035em;
+    line-height:1.34;
+  
+  
+  }
+}
+
+@media (max-width:420px){
+  .hero-bottom .hero-sub,
+  .hero-sub{
+    font-size:19px;
+    letter-spacing:.03em;
+  
+  
+  }
+}
+
+/* ---------- v29: mobile selected work — overlay navigation, full-viewport project covers ---------- */
+@media (max-width:780px){
+  
+  
+  
+  
+  
+  
+  
+  
+}
+
+/* ---------- v30: mobile selected-work cleanup — cover-first presentation ---------- */
+@media (max-width:780px){
+  /* Keep the first cover truly full-screen: the section controls float over it. */
+  #work > .section-head .all-projects-btn{
+  pointer-events: auto;
+  padding-top: 7px;
+  padding-right: 11px;
+  padding-bottom: 7px;
+  padding-left: 11px;
+  border-color: rgba(242,239,233,.28);
+  background: rgba(8,8,9,.20);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: rgba(242,239,233,.82);
+  font-size: 9px;
+  letter-spacing: .12em;
+  display: none;
+}
+
+  
+
+  #work > .section-head h2{
+  margin: 0;
+  font-family: var(--mono);
+  font-weight: 400;
+  color: rgba(242,239,233,.72);
+  text-transform: uppercase;
+  text-shadow: 0 2px 14px rgba(0,0,0,.45);
+  font-size: 12px;
+  line-height: 1.05;
+  letter-spacing: .16em;
+}
+
+  /* Match the centered title treatment used on individual project cover pages. */
+  
+
+  #work .work-feature:hover .work-feature-title{
+    transform:translate(-50%, -50%);
+  }
+}
+
+@media (max-width:420px){
+  #work > .section-head{
+    padding-top:16px;
+  
+  
+  }
+  #work > .section-head h2{
+    font-size:11px;
+  
+  
+  }
+}
+
+/* ---------- v31: mobile full-screen section swipe experience ---------- */
+.mobile-swipe-cue{
+ display:none; 
+}
+
+@media (max-width:780px){
+  
+  
+  /* Every major mobile scene becomes a snap point. */
+  
+  main > .hero{
+  
+  
+  }
+  /* Selected Work becomes invisible; the first cover follows the hero directly. */
+  #work > .section-head{
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  left: var(--gutter);
+  right: var(--gutter);
+  width: auto;
+  margin: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+  border-top: 0;
+  align-items: center;
+  gap: 12px;
+  pointer-events: none;
+  justify-content: flex-start;
+  padding-top: 18px;
+  display: none !important;
+}
+  #work{
+  position: relative;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+  #work > .work-feature-list{
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+  #work .work-feature,
+  #work .work-feature--half{
+  border-radius: 0;
+  aspect-ratio: auto;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+  #work .work-feature-row{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+}
+  #work .work-feature-list{
+  gap: 0;
+  padding-bottom: 0;
+}
+  /* The About and Contact scenes also fill one viewport. */
+  
+  /* Minimal swipe cue: a fine vertical rule + small editorial label. */
+  .mobile-swipe-cue{
+    position:absolute;
+    left:var(--gutter);
+    bottom:28px;
+    z-index:5;
+    display:flex;
+    align-items:center;
+    gap:11px;
+    color:rgba(242,239,233,.72);
+    font-family:var(--mono);
+    font-size:9px;
+    line-height:1;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    white-space:nowrap;
+    pointer-events:none;
+  
+  
+  }
+  .mobile-swipe-line{
+    display:block;
+    width:1px;
+    height:34px;
+    background:rgba(242,239,233,.62);
+    transform-origin:bottom;
+    animation:mobileSwipePulse 2.2s ease-in-out infinite;
+  
+  
+  }
+  @keyframes mobileSwipePulse{
+    0%,100%{ transform:scaleY(.65); opacity:.45; }
+    50%{ transform:scaleY(1); opacity:1; }
+  
+  
+  }
+}
+
+@media (max-width:420px){
+  .mobile-swipe-cue{
+    left:18px;
+    bottom:24px;
+    font-size:8px;
+    letter-spacing:.13em;
+  
+  
+  }
+  .mobile-swipe-line{
+ height:30px; 
+  
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  html,body{
+ scroll-snap-type:none; 
+  
+  }
+  .mobile-swipe-line{
+ animation:none; 
+  
+  }
+}
+
+/* v32 mobile swipe polish */
+.sr-only{
+position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
+}
+
+.ig-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:0;
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  padding:9px 11px;
+  border:1px solid var(--line-strong);
+  border-radius:999px;
+  color:var(--ink);
+  transition:border-color 250ms var(--ease), background-color 250ms var(--ease), transform 200ms var(--ease);
+  max-width:100%;
+  white-space:nowrap;
+}
+
+.ig-btn svg{
+  width:17px;
+  height:17px;
+  flex-shrink:0;
+}
+
+.hero-bg img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 46%;
+  filter: saturate(1.06) brightness(.72) contrast(1.01);
+  transform: scale(1.045);
+  animation: heroImageSettle 1.8s var(--ease) both;
+}
+
+@media (max-width:780px){
+  .ig-btn{
+padding:8px 10px;
+  
+  }
+  .ig-btn svg{
+width:17px;height:17px;
+  
+  }
+  
+  /* subtle local backing under the text, not a black panel */
+  .hero-title-wrap h1,.hero-sub{
+position:relative;
+  
+  }
+  .hero-title-wrap h1::after{
+content:"";position:absolute;inset:-.08em -.18em;z-index:-1;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.18),transparent 78%);filter:blur(14px);
+  
+  }
+  .hero-sub::before{
+content:"";position:absolute;left:50%;top:50%;width:120%;height:170%;transform:translate(-50%,-50%);z-index:-1;background:radial-gradient(closest-side,rgba(0,0,0,.15),transparent 74%);filter:blur(12px);
+  
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .hero-title-wrap h1::after,.hero-sub::before{
+display:none;
+  
+  }
+}
+
+/* v33 mobile refinements: richer hero + fully composed photographer scene */
+@media (max-width:780px){
+  .hero-bg img{
+  object-position: center 42%;
+  transform: scale(1.065);
+  filter: saturate(.72) contrast(.96) brightness(.76);
+}
+
+  /* Make the Photographer scene a true, self-contained viewport. */
+  
+
+  
+
+  main > #about .intro-editorial-grid{
+    width:100%;
+    flex:1 1 auto;
+    min-height:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    gap:0 !important;
+  }
+
+  
+
+  
+
+  
+
+  main > #about .intro-secondary-label{
+    display:block;
+    margin-bottom:12px;
+  }
+
+  main > #about .intro-secondary p{
+    margin:0;
+    font-size:clamp(15px,4.2vw,18px);
+    line-height:1.55;
+    max-width:28ch;
+  }
+
+  main > #about .intro-strip-rule{
+    flex:1;
+  }
+}
+
+/* ---------- v35: mobile editorial menu + true one-screen contact snap ---------- */
+.mobile-menu-toggle,
+.mobile-menu{
+ display:none; 
+}
+
+@media (max-width:780px){
+  /* Minimal menu trigger: two fine lines, visually quieter than a standard hamburger. */
+  .mobile-menu-toggle{
+    display:inline-flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:flex-end;
+    gap:5px;
+    width:34px;
+    height:34px;
+    padding:0;
+    margin:0;
+    border:0;
+    background:transparent;
+    color:var(--ink);
+    cursor:pointer;
+  
+  
+  }
+  .mobile-menu-toggle span{
+    display:block;
+    width:19px;
+    height:1px;
+    background:currentColor;
+    transition:transform 220ms var(--ease), width 220ms var(--ease);
+  
+  
+  }
+  .mobile-menu-toggle span:last-child{
+ width:13px; 
+  
+  }
+  .mobile-menu-toggle[aria-expanded="true"] span:first-child{
+ transform:translateY(3px) rotate(45deg); 
+  
+  }
+  .mobile-menu-toggle[aria-expanded="true"] span:last-child{
+ width:19px; transform:translateY(-3px) rotate(-45deg); 
+  
+  }
+  .mobile-menu{
+    position:fixed;
+    inset:0;
+    z-index:95;
+    display:block;
+    visibility:hidden;
+    pointer-events:none;
+    opacity:0;
+    transition:opacity 240ms var(--ease), visibility 240ms var(--ease);
+  
+  
+  }
+  .mobile-menu.is-open{
+    visibility:visible;
+    pointer-events:auto;
+    opacity:1;
+  
+  
+  }
+  
+  
+  .mobile-menu.is-open .mobile-menu-panel{
+ transform:translateX(0); 
+  
+  }
+  
+  
+  .mobile-menu-links{
+    display:flex;
+    flex-direction:column;
+    padding-top:10px;
+  
+  
+  }
+  
+  .mobile-menu-links a span{
+    font-family:var(--mono);
+    font-size:9px;
+    letter-spacing:0;
+    color:var(--ink-dim);
+  
+  
+  }
+  /* Keep every home-page scene exactly one viewport, including Contact. */
+  main > .hero,
+  main > #work > .work-feature-list > .work-feature,
+  main > #work > .work-feature-list > .work-feature-row > .work-feature,
+  main > #about,
+  footer#contact{
+  scroll-snap-align: start !important;
+  scroll-snap-stop: always !important;
+}
+  
+  
+  
+  
+  /* Avoid the fixed header visually covering the Photographer heading. */
+  
+}
+
+@media (max-width:600px){
+  .mobile-menu-panel{
+ padding-top:82px; 
+  
+  }
+  .mobile-menu-links a{
+ padding:16px 0; 
+  
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .mobile-menu,
+  .mobile-menu-panel,
+  .mobile-menu-toggle span{
+ transition:none; 
+  
+  }
+}
+
+/* --- Mobile refinements: project covers, photographer, contact --- */
+@media (max-width: 780px){
+  /* Photographer section fits within one mobile viewport */
+  
+}
+
+/* ---------- v32: mobile fixes ---------- */
+@media (max-width: 780px){
+  /* Contact links right-aligned on mobile. The earlier rule above targeted
+     .footer-contact (a class that isn't used in the markup — real classes
+     are .footer-contact-side / .footer-contact-link), and a separate rule
+     was explicitly setting justify-self:start, pushing this block left. */
+  .footer-contact-side{
+  align-self: start;
+  justify-self: end;
+  align-items: flex-end;
+  margin-left: auto;
+  text-align: right;
+}
+  .footer-contact-link{
+  width: max-content;
+  max-width: 100%;
+  padding-bottom: 14px;
+  align-items: flex-end;
+  text-align: right;
+}
+
+  /* Photographer section: more breathing room below "Atmosphere", still capped at 100svh */
+  .intro-strip{
+  grid-template-columns: 1fr;
+  row-gap: 26px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 72px;
+  padding-bottom: 64px;
+}
+
+  /* Homepage cover titles: match project-cover-page title treatment exactly */
+  #work .work-feature-title{
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(90%, 720px);
+  text-align: center;
+  font-family: var(--display);
+  font-weight: 400;
+  line-height: .92;
+  letter-spacing: .01em;
+  text-transform: uppercase;
+  transition: none;
+  font-size: clamp(48px, 16vw, 82px);
+  opacity: .8;
+  text-shadow: 0 10px 45px rgba(0,0,0,.28);
+}
+}
+
+@media (max-width: 420px){
+  #work .work-feature-title{
+  width:92%;
+  font-size:clamp(42px, 15vw, 64px);
+  
+  }
+}
+
+/* ---------- v33: mobile — contact section fills the full 100svh top-to-bottom ---------- */
+@media (max-width: 780px){
+  
+  
+}
+
+/* ---------- v34: mobile project page — cover + Event/Client meta together = 100svh, meta sits side by side ---------- */
+/* Fixed-height header so proj-cover can be sized with an exact calc(),
+   without ever constraining <main> itself (it also holds the full
+   photo gallery below — capping/clipping main was hiding it entirely). */
+@media (max-width: 600px){
+  .proj-header{
+  height: 108px;
+  padding-top: 0;
+  padding-right: var(--gutter);
+  padding-bottom: 0;
+  padding-left: var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+  .proj-cover{
+  height: calc(100svh - 108px) !important;
+  height: calc(100svh - 108px) !important;
+  min-height: 0 !important;
+  max-height: none !important;
+}
+
+  /* Event / Client sit side by side, centered as one group (not stacked). */
+  .proj-header .proj-header-row,
+  .proj-meta-block{
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: auto;
+    gap: 28px;
+    justify-content: center;
+    align-items: baseline;
+  }
+  .proj-header .proj-meta-item{
+  width: auto;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+}
+
+/* ---------- v43: project-only page swipe ---------- */
+/* Keep native navigation transitions off globally. Project covers use the
+   lightweight directional transition below; header/menu links stay native. */
+@view-transition{
+  navigation: none;
+}
+
+.project-swipe-enter .proj-enter-slide{
+  animation: project-page-enter 520ms cubic-bezier(.16,1,.3,1) both;
+}
+
+@keyframes project-page-enter{
+  from{ transform:translateX(100%); opacity:1; }
+  to{ transform:translateX(0); opacity:1; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .project-swipe-enter .proj-enter-slide{
+ animation:none !important; 
+  
+  }
+}
+
+/* ---------- v42: mobile contact = one complete scene + quieter glass menu ---------- */
+@media (max-width:780px){
+  
+  
+  
+  
+  
+  
+  
+  
+
+  .mobile-menu-panel{
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  height: auto;
+  transform: translateX(18px);
+  transition: transform 420ms var(--ease);
+  display: flex;
+  flex-direction: column;
+  width: min(56vw,240px) !important;
+  max-height: calc(100svh - 24px) !important;
+  max-height: calc(100svh - 24px) !important;
+  padding-top: 18px !important;
+  padding-right: 18px !important;
+  padding-bottom: 16px !important;
+  padding-left: 18px !important;
+  background: rgba(18,18,20,.58) !important;
+  border: 1px solid rgba(242,239,233,.22) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 18px 60px rgba(0,0,0,.18) !important;
+  backdrop-filter: blur(18px) saturate(120%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(120%) !important;
+}
+  .mobile-menu-backdrop{
+  position: absolute;
+  inset: 0;
+  background: rgba(7,7,8,.20) !important;
+  backdrop-filter: blur(3px) !important;
+  -webkit-backdrop-filter: blur(3px) !important;
+}
+  .mobile-menu-links a{
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--body);
+  font-weight: 300;
+  letter-spacing: -.025em;
+  padding-top: 9px !important;
+  padding-right: 0 !important;
+  padding-bottom: 9px !important;
+  padding-left: 0 !important;
+  font-size: clamp(15px,4vw,18px) !important;
+}
+  .mobile-menu-top{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-dim);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  padding-bottom: 10px !important;
+}
+  .mobile-menu-close{
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink);
+  line-height: 1;
+  cursor: pointer;
+  width: 28px !important;
+  height: 28px !important;
+  font-size: 18px !important;
+}
+}
+
+/* ---------- v43: contact + footer must snap as one complete phone scene ---------- */
+@media (max-width:780px){
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  footer#contact .footer-socials{ width:auto !important; justify-content:flex-end !important; }
+}
+
+/* ---------- v52: mobile contact — pull the headline up (was sitting far too low from space-between) ---------- */
+@media (max-width:780px){
+  
+  footer#contact .contact-panel-top{
+  margin-bottom: 0 !important;
+  justify-content: flex-end !important;
+  text-align: right !important;
+}
+  
+  
+  
+  
+  
+  
+  
+}
+
+/* ---------- v47: mobile — hide header Instagram icon (already in menu), justify Photographer text ---------- */
+@media (max-width:780px){
+  .site-nav .ig-btn{ display:none !important; }
+
+  /* Keep the Photographer copy natural on narrow screens — never stretch
+     spaces between words just to force every line to the same width. */
+  .intro-primary .intro-lead{
+  text-align: center !important;
+  text-justify: auto;
+  max-width: 20ch !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+}
+
+/* ---------- v48: Tony Dimitrova cover — crop the far right edge on mobile (singer is on right side of frame) ---------- */
+@media (max-width: 780px){
+  .cover-crop-right{
+    object-position: 90% center !important;
+  }
+}
+
+/* ---------- v53: contact section — fix headline overflow + uneven mobile gap ---------- */
+@media (max-width:780px){
+  /* The whole panel + bottom bar now breathes as one centered group,
+     instead of a fixed grid row that left dead space under a short panel. */
+  
+  
+  
+
+  /* "Let's make something memorable." was overflowing past the right
+     edge on narrow phones because "MEMORABLE." didn't fit on its line.
+     Trim the size slightly so every word fits whole, with a safety
+     break-word fallback for very narrow screens. */
+  
+}
+
+/* ---------- v54: mobile — no residual space after the footer at the true end of the page ---------- */
+@media (max-width:780px){
+  footer#contact.site-footer{
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  body{
+  overscroll-behavior-y: none;
+  margin-bottom: 0 !important;
+}
+  html{
+  scroll-snap-type: y mandatory;
+  scroll-padding-top: 0;
+  overscroll-behavior-y: none;
+  margin-bottom: 0 !important;
+}
+}
+
+/* ---------- v55: mobile — footer's bottom edge must be the true end of the page, no drift/overscroll gap ---------- */
+@media (max-width:780px){
+  footer#contact{
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  scroll-snap-align: end !important;
+}
+}
+
+/* ---------- v56: mobile — footer-bottom must stay flush at the true bottom, not centered with dead space below ---------- */
+@media (max-width:780px){
+  footer#contact > .wrap{
+  width: 100%;
+  align-items: stretch !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
+  padding-top: 0 !important;
+  padding-right: var(--gutter) !important;
+  padding-bottom: 0 !important;
+  padding-left: var(--gutter) !important;
+  grid-template-rows: minmax(0,1fr) auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  gap: 0 !important;
+}
+}
+
+/* ---------- v58: mobile — pull the headline up (was flush to the bottom via space-between), widen the gap before the link ---------- */
+@media (max-width:780px){
+  
+  
+  
+  
+}
+
+/* ---------- v59: mobile — enlarge every text in the contact section, more breathing room ---------- */
+@media (max-width:780px){
+  footer#contact .footer-cta-label{
+    font-size: 14px !important;
+    letter-spacing: .14em !important;
+  }
+  
+  
+  footer#contact .footer-contact-link span{
+  white-space: nowrap !important;
+  text-align: right !important;
+  font-size: 32px !important;
+}
+  footer#contact .footer-contact-link b{
+  text-align: right !important;
+  font-size: 13px !important;
+}
+  footer#contact .footer-bottom{
+  padding-top: 12px !important;
+  padding-right: 0 !important;
+  padding-bottom: 10px !important;
+  padding-left: 0 !important;
+  min-height: 0 !important;
+  gap: 10px !important;
+  align-items: center !important;
+  margin: 0 !important;
+  font-size: 11px !important;
+}
+
+  
+  
+}
+
+/* ---------- v62: mobile — consistent, final viewport sizing for every snap scene (dvh fallback for real-device accuracy) ---------- */
+@media (max-width:780px){
+  main > .hero,
+  #work .work-feature,
+  #work .work-feature--half,
+  main > #about,
+  footer#contact{
+    height:100vh !important;
+    height:100svh !important;
+    min-height:100vh !important;
+    min-height:100svh !important;
+    max-height:100vh !important;
+    max-height:100svh !important;
+  }
+}
+
+/* v66: mobile Photographer composition — heading clear of header, lead centered */
+@media (max-width:780px){
+  main > #about{
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-right: var(--gutter) !important;
+  padding-left: var(--gutter) !important;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  scroll-snap-align: start !important;
+  scroll-snap-stop: always !important;
+  scroll-margin-top: 0 !important;
+  padding-top: clamp(72px,10vh,88px) !important;
+  padding-bottom: clamp(30px,5vh,42px) !important;
+}
+
+  main > #about .intro-strip-head{
+  flex: 0 0 auto;
+  margin-bottom: clamp(16px,3vh,24px) !important;
+}
+
+  main > #about .intro-primary{
+  min-height: 0;
+  width: 100%;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+  
+}
+
+/* ---------- v68: mobile Photographer intro refinements ---------- */
+@media (max-width:780px){
+  
+
+  /* Keep the paragraph visually higher within the 100svh Photographer scene. */
+  main > #about .intro-secondary{
+  flex: 0 0 auto;
+  align-self: flex-end;
+  width: min(100%,30ch);
+  max-width: 30ch;
+  margin: 0;
+  padding-top: clamp(24px,5vh,42px);
+  transform: translateY(-20px);
+}
+}
+
+/* ---------- v69: mobile intro + contact final spacing ---------- */
+@media (max-width:780px){
+  /* Photographer lead: natural, even word spacing with a slightly wider measure. */
+  
+
+  /* Give the contact label enough top breathing room below the fixed header. */
+  
+
+  /* Stronger, centered contact statement. */
+  
+}
+
+/* ---------- v70: mobile — intro lead + centered contact CTA ---------- */
+@media (max-width:780px){
+  main > #about .intro-primary .intro-lead{
+  width: 100%;
+  max-width: 21ch;
+  margin-top: 0;
+  margin-right: auto;
+  margin-bottom: 0;
+  margin-left: auto;
+  font-size: 11.2vw;
+  letter-spacing: 0em;
+  text-align: justify !important;
+  line-height: 1.1 !important;
+}
+
+  
+
+  
+
+  
+
+  footer#contact .contact-note{
+  width: 100% !important;
+  max-width: 34ch !important;
+  margin-top: 0 !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-bottom: 0 !important;
+  text-align: left !important;
+  align-self: center !important;
+  font-size: clamp(16px,4.2vw,20px) !important;
+  line-height: 1.45 !important;
+}
+
+  
+}
+
+/* v71: mobile footer CTA typography */
+@media (max-width:780px){
+  
+}
+
+@media (max-width:360px){
+  footer#contact .footer-cta h2{
+  font-size:clamp(34px,12vw,68px) !important;
+  
+  }
+}
+
+/* ---------- v73: contact — underline hugs the text again + nudge the handle block down ---------- */
+@media (max-width:780px){
+  footer#contact .footer-contact-link{
+  gap: 12px !important;
+  white-space: normal !important;
+  text-align: right !important;
+  align-items: flex-end !important;
+  width: max-content !important;
+  max-width: 100% !important;
+  margin-left: auto !important;
+}
+  
+}
+
+/* ---------- v74: contact headline — match the Photographer section's
+   justified "block" look, bigger, plus push the handle further down ---------- */
+@media (max-width:780px){
+  footer#contact .footer-cta h2{
+  margin-top: 0 !important;
+  margin-right: auto !important;
+  margin-bottom: 0 !important;
+  margin-left: auto !important;
+  overflow-wrap: break-word !important;
+  width: 100% !important;
+  max-width: none !important;
+  font-size: 22.5vw !important;
+  line-height: 0.9 !important;
+  letter-spacing: 0.01em !important;
+  text-align: justify !important;
+  text-justify: inter-word !important;
+}
+  
+}
+
+/* ---------- v76: hero subtitle — stronger contrast against the busy crowd photo ---------- */
+.hero-title-wrap h1,
+.hero-sub{
+  position:relative;
+}
+
+
+
+.hero-accent-line strong{
+  color:inherit !important;
+  font-weight:400;
+  font-family:var(--serif);
+  text-shadow:inherit !important;
+}
+
+.hero-title-wrap h1::after{
+  content:"";
+  position:absolute;
+  inset:-.1em -.2em;
+  z-index:-1;
+  border-radius:50%;
+  background:radial-gradient(closest-side, rgba(0,0,0,.24), transparent 78%);
+  filter:blur(20px);
+}
+
+.hero-sub::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:132%;
+  height:190%;
+  transform:translate(-50%,-50%);
+  z-index:-1;
+  background:radial-gradient(closest-side, rgba(0,0,0,.34), transparent 72%);
+  filter:blur(18px);
+}
+
+@media (prefers-reduced-motion:reduce){
+  .hero-title-wrap h1::after,
+  .hero-sub::before{
+ display:none; 
+  
+  }
+}
+
+/* ---------- v77: hero polish — tighter subtitle lines + centered vignette (edges untouched) ---------- */
+.hero-bottom .hero-sub,
+.hero-sub{
+  font-family: var(--serif);
+  font-weight: 400;
+  text-shadow: 0 1px 3px rgba(0,0,0,.9),
+    0 10px 32px rgba(0,0,0,.5),
+    0 22px 54px rgba(0,0,0,.35) !important;
+  color: rgba(255,255,255,.97) !important;
+  line-height: 1.24 !important;
+}
+
+.hero-accent-muted{
+  color:rgba(255,255,255,.85) !important;
+  display:block;
+  margin-top:0 !important;
+  font-family:var(--serif);
+  font-weight:400;
+}
+
+.hero-scrim{
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  background:radial-gradient(38% 34% at 50% 50%, rgba(0,0,0,.4) 0%, rgba(0,0,0,.2) 55%, rgba(0,0,0,0) 82%),
+    radial-gradient(58% 48% at 50% 49%, rgba(0,0,0,.02) 0%, rgba(0,0,0,.04) 46%, rgba(0,0,0,.24) 100%),
+    linear-gradient(180deg, rgba(5,6,6,.34) 0%, rgba(5,6,6,.04) 28%, rgba(5,6,6,.08) 52%, rgba(5,6,6,.38) 100%),
+    linear-gradient(90deg, rgba(5,6,6,.28) 0%, rgba(5,6,6,0) 34%, rgba(5,6,6,0) 66%, rgba(5,6,6,.30) 100%) !important;
+  pointer-events:none;
+}
+
+@media (max-width:780px){
+  .hero-scrim{
+  background:radial-gradient(48% 30% at 50% 50%, rgba(0,0,0,.42) 0%, rgba(0,0,0,.2) 55%, rgba(0,0,0,0) 84%),
+      radial-gradient(76% 48% at 50% 48%, rgba(0,0,0,0) 0%, rgba(0,0,0,.08) 52%, rgba(0,0,0,.34) 100%),
+      linear-gradient(180deg, rgba(4,5,5,.30) 0%, rgba(4,5,5,.03) 25%, rgba(4,5,5,.06) 56%, rgba(4,5,5,.46) 100%),
+      linear-gradient(90deg, rgba(4,5,5,.24) 0%, rgba(4,5,5,0) 38%, rgba(4,5,5,0) 62%, rgba(4,5,5,.26) 100%) !important;
+  }
+}
+
+/* ---------- v88: mobile contact — compress spacing so everything fits in one screen; headline size untouched ---------- */
+@media (max-width:780px){
+  footer#contact .contact-panel{
+  min-height: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  flex: 1 1 auto !important;
+  justify-content: flex-start !important;
+  padding-bottom: clamp(28px,6vh,52px) !important;
+  padding-top: clamp(10px,1.8vh,18px) !important;
+  gap: clamp(8px,1.4vh,14px) !important;
+}
+  footer#contact .contact-panel-main{
+  margin-bottom: clamp(12px,3vh,24px) !important;
+  flex: 1 1 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  gap: clamp(12px,2.2vh,20px) !important;
+}
+  footer#contact .footer-cta{
+  align-self: flex-start;
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  align-items: center !important;
+  text-align: center !important;
+  gap: clamp(8px,1.6vh,14px) !important;
+}
+  footer#contact .footer-contact-side{
+  gap: 14px !important;
+  max-width: none !important;
+  align-self: flex-end;
+  align-items: flex-end !important;
+  width: 100% !important;
+  margin-top: clamp(14px,2.6vh,26px) !important;
+}
+}
+
+/* ---------- v91: "Based in Plovdiv, Bulgaria" — quiet companion to the availability label ---------- */
+/* Desktop: sits naturally on the same row via existing space-between, at zero
+   extra height cost. Mobile: stacked compactly under the label, with the
+   contact-panel padding/gap trimmed slightly to compensate so the headline
+   below keeps its v88 3-line wrap. */
+.footer-cta-location{
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:var(--hero-orange, #e66a3d);
+  margin:0;
+}
+@media (max-width:780px){
+  footer#contact .contact-panel-top{
+    flex-direction:column !important;
+    align-items:flex-end !important;
+    gap:4px !important;
+  }
+  footer#contact .footer-cta-location{
+    font-size:9px !important;
+    letter-spacing:0.1em !important;
+  }
+}

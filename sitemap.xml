@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://h-agusheff.netlify.app/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://h-agusheff.netlify.app/all-projects.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-agusheff.netlify.app/work/burrata-fashion-show.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://h-agusheff.netlify.app/work/casa-de-cuba-rum-cigar-tasting.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://h-agusheff.netlify.app/work/kapana-fest-2025.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://h-agusheff.netlify.app/work/shake-that-hill-2025.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url><loc>https://h-agusheff.netlify.app/work/tony-dimitrova-live.html</loc></url>
+  <url><loc>https://h-agusheff.netlify.app/work/cotton-candy-party.html</loc></url>
+</urlset>
